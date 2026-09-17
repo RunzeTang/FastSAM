@@ -8,7 +8,7 @@ import shutil
 import ast
 from cog import BasePredictor, Input, Path
 from ultralytics import YOLO
-from utils.tools import *
+from fastsam_utils.tools import *
 
 
 class Predictor(BasePredictor):

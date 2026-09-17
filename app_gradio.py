@@ -1,8 +1,8 @@
 from ultralytics import YOLO
 import gradio as gr
 import torch
-from utils.tools_gradio import fast_process
-from utils.tools import format_results, box_prompt, point_prompt, text_prompt
+from fastsam_utils.tools_gradio import fast_process
+from fastsam_utils.tools import format_results, box_prompt, point_prompt, text_prompt
 from PIL import ImageDraw
 import numpy as np
 
@@ -81,7 +81,7 @@ def segment_everything(
     wider=False,
     mask_random_color=True,
 ):
-    input_size = int(input_size)  # 确保 imgsz 是整数
+    input_size = int(input_size)
     # Thanks for the suggestion by hysts in HuggingFace.
     w, h = input.size
     scale = input_size / max(w, h)
@@ -128,7 +128,7 @@ def segment_with_points(
     global global_points
     global global_point_label
     
-    input_size = int(input_size)  # 确保 imgsz 是整数
+    input_size = int(input_size)
     # Thanks for the suggestion by hysts in HuggingFace.
     w, h = input.size
     scale = input_size / max(w, h)
@@ -174,8 +174,7 @@ def get_points_with_draw(image, label, evt: gr.SelectData):
     global_point_label.append(1 if label == 'Add Mask' else 0)
     
     print(x, y, label == 'Add Mask')
-    
-    # 创建一个可以在图像上绘图的对象
+
     draw = ImageDraw.Draw(image)
     draw.ellipse([(x - point_radius, y - point_radius), (x + point_radius, y + point_radius)], fill=point_color)
     return image
